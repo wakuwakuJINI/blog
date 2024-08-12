@@ -1,0 +1,80 @@
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vlog Blog Posts</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      #allPosts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        background-color: pink;
+      }
+      .post-box {
+        border: 1px solid #000000;
+        padding: 10px;
+        width: 18%;
+        box-sizing: border-box;
+        border-radius: 5px;
+        background-color: #ffffff;
+      }
+      .post-box h4 {
+        margin: 0 auto;
+      }
+      
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    
+    <script>
+      $(document).ready(() => {
+        // API 호출
+        fetch("https://jsonplaceholder.typicode.com/posts")
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+
+            // 100개의 포스트 가져오기  
+            const posts = json.slice(0, 100);
+            //새로운 div 요소 생성
+            posts.forEach((element, index) => {
+              const $postBox = $("<div>")
+                .addClass("post-box")
+                .append(
+                   $("<h4>").text(`ID: ${element.id}`), //$(" ") ->jquery를 사용하여 새로운 HTML 요소 생성.
+                   $("<p>").text(`Title: ${element.title}`),
+                   $("<p>").text(`Body: ${element.body}`)
+                );
+
+            // #allPosts 컨테이너에 postBox 추가          
+              $("#allPosts").append($postBox);
+            });
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="allPosts">
+      <!-- 포스트가 여기에 추가됩니다. -->
+    </div>
+  </body>
+</html>
+
+<!-- 
+#allPosts는 포스트들을 담을 컨테이너입니다. flex-wrap 속성을 사용해 한 줄에 5개의 포스트를 보여줄 수 있게 했습니다.
+.post-box는 각 포스트를 담는 박스입니다. 
+이 박스는 width를 18%로 설정하여 한 줄에 5개가 들어갈 수 있도록 했습니다. 
+gap: 10px 속성으로 박스들 사이에 여백을 두었습니다.
+
+JavaScript:
+fetch("https://jsonplaceholder.typicode.com/posts")를 통해 API를 호출하여 JSON 데이터를 가져옵니다.
+JSON 데이터에서 상위 100개의 포스트만 가져오기 위해 slice(0, 100)를 사용합니다.
+forEach 루프를 통해 각 포스트를 HTML로 구성하고, #allPosts 컨테이너에 추가합니다.
+각 포스트 박스는 id, title, body 정보를 포함합니다.
+
+jQuery:
+$(document).ready()는 문서가 준비되면 스크립트가 실행되도록 보장합니다.
+이 코드로 실행하면, 페이지에 100개의 포스트가 한 줄에 5개씩 정렬되어 나타납니다. 
+JSON 데이터의 구조에 따라 벨로그의 API를 호출하여 유사한 방식으로 데이터를 가져올 수 있습니다.// -->
